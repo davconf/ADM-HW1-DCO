@@ -1765,7 +1765,269 @@ print(numpy.linalg.det(arr_numpy).round(2))
 
 
 
+##### Birthday Cake Candles
+
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'birthdayCakeCandles' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts INTEGER_ARRAY candles as parameter.
+#
+
+def birthdayCakeCandles(candles):
+  # Write your code here
+  # find the max value in the candles list and count it in the list
+  return candles.count(max(candles))
+
+if __name__ == '__main__':
+  fptr = open(os.environ['OUTPUT_PATH'], 'w')
+  candles_count = int(input().strip())
+  candles = list(map(int, input().rstrip().split()))
+  result = birthdayCakeCandles(candles)
+  fptr.write(str(result) + '\n')
+  fptr.close()
 
 
+
+
+###### Number Line Jumps
+
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'kangaroo' function below.
+#
+# The function is expected to return a STRING.
+# The function accepts following parameters:
+#  1. INTEGER x1
+#  2. INTEGER v1
+#  3. INTEGER x2
+#  4. INTEGER v2
+#
+
+def kangaroo(x1, v1, x2, v2):
+  # Write your code here
+
+  # kangaroo 1 : position after N jumps = x1 + v1*N
+  # kangaroo 2 : position after N jumps = x2 + v2*N
+  # we need to check if there is an N such that:
+  # x1 + v1*N = x2 + v2*N
+  # ---> N = (x2-x1)/(v1-v2)
+  # N can only be an integer, so our conditions to say YES is:
+  # (x2-x1) % (v2-v1) = 0
+
+  if v1 <= v2:
+    return "NO"
+  if (x2 - x1) % (v2 - v1) != 0:
+    return "NO"
+  return "YES"
+
+  # a simple solution (step by step verification of a "long" run),
+  # ... but not efficient
+  #for i in range(10000):
+  #  if x1 + v1 * i == x2 + v2 * i:
+  #    return "YES"
+  #return "NO"
+
+if __name__ == '__main__':
+  fptr = open(os.environ['OUTPUT_PATH'], 'w')
+  first_multiple_input = input().rstrip().split()
+  x1 = int(first_multiple_input[0])
+  v1 = int(first_multiple_input[1])
+  x2 = int(first_multiple_input[2])
+  v2 = int(first_multiple_input[3])
+  result = kangaroo(x1, v1, x2, v2)
+  fptr.write(result + '\n')
+  fptr.close()
+
+
+
+##### Viral Advertising
+
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'viralAdvertising' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts INTEGER n as parameter.
+#
+
+def viralAdvertising(n):
+  # Write your code here
+
+# example (n=5)
+# Day Shared Liked Cumulative
+# 1      5     2       2
+# 2      6     3       5
+# 3      9     4       9
+# 4     12     6      15
+# 5     18     9      24
+
+  shared = 5 # number of people who shared the ad on the first day
+  cumulative = 0
+  # for loop from the first day
+  for i in range(n):
+    liked = shared // 2
+    cumulative += liked
+    shared = liked * 3
+  return cumulative
+
+if __name__ == '__main__':
+  fptr = open(os.environ['OUTPUT_PATH'], 'w')
+  n = int(input().strip())
+  result = viralAdvertising(n)
+  fptr.write(str(result) + '\n')
+  fptr.close()
+
+
+
+##### Recursive Digit Sum
+
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'superDigit' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts following parameters:
+#  1. STRING n
+#  2. INTEGER k
+#
+
+def superDigit(n, k):
+  # Write your code here
+  #print(type(n))
+
+  p = n*k # number p is created by concatenating 'k' times the string 'n'
+  super_digit = 0
+  for i in range(len(p)):
+    super_digit += int(p[i])
+
+  # if length of super_digit > 1 then it recursively calls superDigit function
+  if len(str(super_digit)) > 1:
+    return superDigit(str(super_digit), 1) # superDigit accepts (str,int) as arguments
+  return super_digit
+
+if __name__ == '__main__':
+  fptr = open(os.environ['OUTPUT_PATH'], 'w')
+  first_multiple_input = input().rstrip().split()
+  n = first_multiple_input[0]
+  k = int(first_multiple_input[1])
+  result = superDigit(n, k)
+  fptr.write(str(result) + '\n')
+  fptr.close()
+
+
+
+
+##### Insertion Sort - Part 1
+
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'insertionSort1' function below.
+#
+# The function accepts following parameters:
+#  1. INTEGER n
+#  2. INTEGER_ARRAY arr
+#
+
+def insertionSort1(n, arr):
+  # Write your code here
+  test_value = arr[n-1] # last element of arr
+
+  i = n-2 # 'while' loop iterates from the second-to-last element (i=n-2)...
+          # ... down to the first element
+  while i >= 0:
+    if test_value < arr[i]:
+      arr[i+1] = arr[i]
+      print(*arr, sep = " ")
+    else: # (test_value has found its correct position --> break the while)
+      break
+    i -= 1
+  arr[i+1] = test_value
+  print(*arr, sep = " ")
+
+if __name__ == '__main__':
+  n = int(input().strip())
+  arr = list(map(int, input().rstrip().split()))
+  insertionSort1(n, arr)
+
+
+
+##### Insertion Sort - Part 2
+
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'insertionSort2' function below.
+#
+# The function accepts following parameters:
+#  1. INTEGER n
+#  2. INTEGER_ARRAY arr
+#
+
+def insertionSort2(n, arr):
+  # Write your code here
+  # for loop starting from the second element (index 1)
+  for i in range(1, n):
+    # Pick the current element and its index
+    current_element = arr[i]
+    current_index = i
+
+    # Shift elements to the right while they are greater than the current element
+    while current_index > 0 and arr[current_index-1] > current_element:
+      arr[current_index] = arr[current_index-1]
+      current_index -= 1
+
+    # Insert the current element at its correct position
+    arr[current_index] = current_element
+
+    # Print the current state of the array after each iteration
+    print(*arr)
+
+if __name__ == '__main__':
+  n = int(input().strip())
+  arr = list(map(int, input().rstrip().split()))
+  insertionSort2(n, arr)
 
 
