@@ -423,18 +423,32 @@ if __name__ == '__main__':
 
 ##### Alphabet Rangoli
 
-# solution from HackerRank (very nice, not mine)
-def gen(n):
-  for i in range(n * 2 - 1): # iterates n*2-1 times (total raws)
-    # yield is a keyword used to define generator functions
-    # a 'regular function' return a single value and terminate
-    # a 'generator function' return a generator object, which is an iterable that
-    # can be used to produce a sequence of values ondemand
+def print_rangoli(size):
+  # your code goes here
+  alphabet = "abcdefghijklmnopqrstuvwxyz" # string with all the letters (good idea)
+  sub_alph = alphabet[:size] # substring of alphabet containing the first 'size' letters
+  width = 4*size - 3 # total width of the pattern
 
-    yield n - abs(i - n + 1) # abs(): absolute value
+  # TOP HALF  
+  for i in range(size):
+    letters_pattern = "-".join(sub_alph[-1-i:])
+    
+    left_side_letters_pattern = letters_pattern[1:][::-1]
+    right_side_letters_pattern = letters_pattern
+    print((left_side_letters_pattern + right_side_letters_pattern).center(width,"-"))
 
-for i in gen(n):
-  print('-'.join(chr(ord('a') + n - j) for j in gen(i)).center(n * 4 - 3, '-'))
+  # BOTTOM HALF (same code of the TOP HALF but with for loop reversed: i descendent)
+  for i in reversed(range(size-1)):
+    letters_pattern = "-".join(sub_alph[-1-i:])
+    
+    left_side_letters_pattern = letters_pattern[1:][::-1]
+    right_side_letters_pattern = letters_pattern
+    print((left_side_letters_pattern + right_side_letters_pattern).center(width,"-"))
+
+if __name__ == '__main__':
+  n = int(input())
+  print_rangoli(n)
+
 
 
 ##### Capitalize!
@@ -491,22 +505,23 @@ if __name__ == '__main__':
 ##### Merge the Tools!
 
 def merge_the_tools(string, k):
-  n = len(string)
+  subsegments_list = [] # empty list for storing the subsegments of the string
+  out = "" # empty string (it will be used to accumulate the unique char from each subsegment)
+    
+  # decomposing the string
+  pieces_of_substring = int(len(string)/k)
+  for i in range(pieces_of_substring):
+    start_index_of_subsegment = i*k
+    end_index_of_subsegment = start_index_of_subsegment + k
+    subsegments_list.append(string[start_index_of_subsegment:end_index_of_subsegment])
 
-  n_substrings = int(n/k)
-
-  # divide string in substrings
-  t = []
-  for i in range(n_substrings):
-    t.append(string[(i*k):(n_substrings+i*k)])
-
-  # remove duplicated characters from each substring
-  for i in range(len(t)):
-    # create a dictionary from a list
-    # ... and in this way you remove the duplicated characters
-    temp_dictionary = dict.fromkeys(t[i])
-    # from dictionary to list (comeback)
-    print(''.join(list(temp_dictionary)))
+  # choosing unique characters
+  for part in subsegments_list: # for each subsegments
+    for c in part: # for each character 
+      if c not in out: # if c is not already in the 'out' string, it is appended to 'out'
+        out += c
+    print(out)
+    out = "" # re-initialize to "" for the next subsegment
 
 if __name__ == '__main__':
   string, k = input(), int(input())
